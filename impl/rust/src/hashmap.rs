@@ -14,16 +14,8 @@ enum Entry<K, V> {
 }
 
 impl<K, V> Entry<K, V> {
-    fn is_empty(&self) -> bool {
-        matches!(self, Entry::Empty)
-    }
-
     fn is_tombstone(&self) -> bool {
         matches!(self, Entry::Tombstone)
-    }
-
-    fn is_vacant(&self) -> bool {
-        matches!(self, Entry::Empty | Entry::Tombstone)
     }
 }
 
