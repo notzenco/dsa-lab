@@ -1,7 +1,7 @@
 //! Hash Map implementation using open addressing with linear probing.
 
-use std::hash::{Hash, Hasher};
 use std::collections::hash_map::DefaultHasher;
+use std::hash::{Hash, Hasher};
 
 const DEFAULT_CAPACITY: usize = 16;
 const MAX_LOAD_FACTOR: f64 = 0.75;
@@ -124,14 +124,11 @@ where
 
     fn resize(&mut self) {
         let new_capacity = self.entries.len() * 2;
-        let old_entries = std::mem::replace(
-            &mut self.entries,
-            {
-                let mut v = Vec::with_capacity(new_capacity);
-                v.resize_with(new_capacity, || Entry::Empty);
-                v
-            },
-        );
+        let old_entries = std::mem::replace(&mut self.entries, {
+            let mut v = Vec::with_capacity(new_capacity);
+            v.resize_with(new_capacity, || Entry::Empty);
+            v
+        });
 
         self.size = 0;
         self.tombstones = 0;
@@ -154,7 +151,10 @@ where
         let (index, found) = self.find_slot(&key);
 
         if found {
-            if let Entry::Occupied { value: old_value, .. } = &mut self.entries[index] {
+            if let Entry::Occupied {
+                value: old_value, ..
+            } = &mut self.entries[index]
+            {
                 let prev = old_value.clone();
                 *old_value = value;
                 return Some(prev);
@@ -259,7 +259,9 @@ mod tests {
     #[test]
     fn test_insert_and_get() {
         let mut map = HashMap::new();
-        assert!(map.insert("key1".to_string(), "value1".to_string()).is_none());
+        assert!(map
+            .insert("key1".to_string(), "value1".to_string())
+            .is_none());
         assert_eq!(map.get(&"key1".to_string()), Some(&"value1".to_string()));
         assert_eq!(map.len(), 1);
     }

@@ -80,7 +80,11 @@ test-rust:
 
 # Run C++ tests
 test-cpp:
-    @echo "==> Building and running C++ tests..."
+    #!/usr/bin/env bash
+    set -eu
+    echo "==> Building and running C++ tests..."
+    if ! command -v cmake &>/dev/null; then echo "SKIP: cmake not installed"; exit 0; fi
+    if ! command -v ninja &>/dev/null; then echo "SKIP: ninja not installed"; exit 0; fi
     cmake -S {{root}}/impl/cpp -B {{root}}/impl/cpp/build -G Ninja -DCMAKE_BUILD_TYPE=Release
     cmake --build {{root}}/impl/cpp/build --target dsa_tests
     {{root}}/impl/cpp/build/dsa_tests
@@ -111,10 +115,14 @@ bench-rust:
 
 # Run C++ benchmarks
 bench-cpp:
-    @echo "==> Building and running C++ benchmarks..."
+    #!/usr/bin/env bash
+    set -eu
+    echo "==> Building and running C++ benchmarks..."
+    if ! command -v cmake &>/dev/null; then echo "SKIP: cmake not installed"; exit 0; fi
+    if ! command -v ninja &>/dev/null; then echo "SKIP: ninja not installed"; exit 0; fi
     cmake -S {{root}}/impl/cpp -B {{root}}/impl/cpp/build -G Ninja -DCMAKE_BUILD_TYPE=Release
     cmake --build {{root}}/impl/cpp/build --target dsa_bench
-    @mkdir -p {{root}}/reports/raw
+    mkdir -p {{root}}/reports/raw
     {{root}}/impl/cpp/build/dsa_bench --benchmark_format=json > {{root}}/reports/raw/cpp_bench.json
 
 # Run Go benchmarks
@@ -153,11 +161,13 @@ ci: ci-fmt test
 
 # Check formatting (non-destructive)
 ci-fmt:
-    @echo "==> Checking Rust formatting..."
+    #!/usr/bin/env bash
+    set -eu
+    echo "==> Checking Rust formatting..."
     cd {{root}}/impl/rust && cargo fmt --check
-    @echo "==> Checking Go formatting..."
-    cd {{root}}/impl/go && test -z "$$(gofmt -l .)"
-    @echo "==> Formatting checks passed!"
+    echo "==> Checking Go formatting..."
+    cd {{root}}/impl/go && test -z "$(gofmt -l .)"
+    echo "==> Formatting checks passed!"
 
 # =============================================================================
 # CLEAN

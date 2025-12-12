@@ -1,0 +1,19 @@
+goos: linux
+goarch: amd64
+pkg: github.com/dsa-lab/go/bench
+cpu: Intel(R) Core(TM) i7-10700K CPU @ 3.80GHz
+BenchmarkInsert/size=100-16             	   90934	     12991 ns/op	   21056 B/op	       5 allocs/op
+BenchmarkInsert/size=1000-16            	    8762	    127944 ns/op	  165697 B/op	       8 allocs/op
+BenchmarkInsert/size=10000-16           	     882	   1322356 ns/op	 1312580 B/op	      11 allocs/op
+BenchmarkGet/size=100-16                	  589060	      2148 ns/op	       0 B/op	       0 allocs/op
+BenchmarkGet/size=1000-16               	   46197	     26417 ns/op	       0 B/op	       0 allocs/op
+BenchmarkGet/size=10000-16              	    3400	    349842 ns/op	       0 B/op	       0 allocs/op
+BenchmarkMixedUniformMedium-16          	    1957	    609852 ns/op	  329537 B/op	       9 allocs/op
+BenchmarkInsertHeavyUniformMedium-16    	     921	   1322018 ns/op	 1312576 B/op	      11 allocs/op
+BenchmarkReadHeavyUniformMedium-16      	    2634	    445157 ns/op	   83776 B/op	       7 allocs/op
+PASS
+ok  	github.com/dsa-lab/go/bench	11.719s
+PASS
+ok  	github.com/dsa-lab/go/internal/hashmap	0.006s
+PASS
+ok  	github.com/dsa-lab/go/tests	0.008s

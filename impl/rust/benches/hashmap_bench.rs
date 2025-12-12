@@ -1,6 +1,6 @@
 //! Benchmarks for HashMap implementation
 
-use criterion::{black_box, criterion_group, criterion_main, Criterion, BenchmarkId};
+use criterion::{black_box, criterion_group, criterion_main, BenchmarkId, Criterion};
 use dsa_lab::HashMap;
 use serde::Deserialize;
 use std::fs;

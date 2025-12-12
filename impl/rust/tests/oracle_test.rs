@@ -17,7 +17,11 @@ fn test_oracle_insert_get() {
     for (key, value) in keys.iter().zip(values.iter()) {
         let our_result = our_map.insert(key.clone(), value.clone());
         let std_result = std_map.insert(key.clone(), value.clone());
-        assert_eq!(our_result, std_result, "Insert results differ for key: {}", key);
+        assert_eq!(
+            our_result, std_result,
+            "Insert results differ for key: {}",
+            key
+        );
     }
 
     // Verify same length
@@ -34,7 +38,10 @@ fn test_oracle_insert_get() {
     }
 
     // Verify non-existent keys
-    assert_eq!(our_map.get(&"nonexistent".to_string()), std_map.get(&"nonexistent".to_string()));
+    assert_eq!(
+        our_map.get(&"nonexistent".to_string()),
+        std_map.get(&"nonexistent".to_string())
+    );
 }
 
 #[test]
@@ -79,7 +86,11 @@ fn test_oracle_remove() {
         let key = format!("key_{}", i);
         let our_removed = our_map.remove(&key);
         let std_removed = std_map.remove(&key);
-        assert_eq!(our_removed, std_removed, "Remove results differ for key: {}", key);
+        assert_eq!(
+            our_removed, std_removed,
+            "Remove results differ for key: {}",
+            key
+        );
     }
 
     // Verify final state
@@ -104,8 +115,8 @@ fn test_oracle_remove() {
 
 #[test]
 fn test_oracle_mixed_operations() {
-    use rand::{Rng, SeedableRng};
     use rand::rngs::StdRng;
+    use rand::{Rng, SeedableRng};
 
     let mut rng = StdRng::seed_from_u64(42);
     let mut our_map: HashMap<String, String> = HashMap::new();
