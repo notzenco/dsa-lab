@@ -11,8 +11,14 @@ from dsa_lab import HashMap
 def load_workload(name: str) -> Optional[dict]:
     """Load a workload file."""
     paths = [
-        Path(__file__).parent.parent.parent.parent / "workloads" / "map" / f"{name}.json",
-        Path(__file__).parent.parent.parent.parent.parent / "workloads" / "map" / f"{name}.json",
+        Path(__file__).parent.parent.parent.parent
+        / "workloads"
+        / "map"
+        / f"{name}.json",
+        Path(__file__).parent.parent.parent.parent.parent
+        / "workloads"
+        / "map"
+        / f"{name}.json",
     ]
 
     for path in paths:

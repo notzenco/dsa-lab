@@ -10,6 +10,7 @@ MAX_LOAD_FACTOR = 0.75
 
 class EntryState(Enum):
     """State of an entry in the hash map."""
+
     EMPTY = 0
     TOMBSTONE = 1
     OCCUPIED = 2
@@ -75,7 +76,10 @@ class HashMap:
             entry = self._entries[index]
 
             if entry.state == EntryState.EMPTY:
-                return (first_tombstone if first_tombstone is not None else index, False)
+                return (
+                    first_tombstone if first_tombstone is not None else index,
+                    False,
+                )
             elif entry.state == EntryState.TOMBSTONE:
                 if first_tombstone is None:
                     first_tombstone = index
