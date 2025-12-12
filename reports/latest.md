@@ -1,6 +1,6 @@
 # dsa-lab Benchmark Report
 
-**Generated:** 2025-12-12 23:23:36
+**Generated:** 2025-12-12 23:32:09
 
 ## Environment
 
@@ -18,42 +18,42 @@
 
 | Benchmark | Rust | C++ | Go | Python |
 |-----------|------|-----|-------|--------|
-| BM_Get/100 | - | 2.32 us | - | - |
-| BM_Get/10000 | - | 379.72 us | - | - |
-| BM_Get/4096 | - | 131.60 us | - | - |
-| BM_Get/512 | - | 14.57 us | - | - |
-| BM_Insert/100 | - | 12.85 us | - | - |
-| BM_Insert/10000 | - | 1.94 ms | - | - |
-| BM_Insert/4096 | - | 874.82 us | - | - |
-| BM_Insert/512 | - | 80.33 us | - | - |
+| BM_Get/100 | - | 2.29 us | - | - |
+| BM_Get/10000 | - | 382.64 us | - | - |
+| BM_Get/4096 | - | 129.31 us | - | - |
+| BM_Get/512 | - | 14.40 us | - | - |
+| BM_Insert/100 | - | 12.37 us | - | - |
+| BM_Insert/10000 | - | 1.91 ms | - | - |
+| BM_Insert/4096 | - | 864.26 us | - | - |
+| BM_Insert/512 | - | 82.23 us | - | - |
 | BM_InsertHeavyUniformMedium | - | 0.00 ns | - | - |
 | BM_MixedUniformMedium | - | 0.00 ns | - | - |
 | BM_ReadHeavyUniformMedium | - | 0.00 ns | - | - |
 | BenchmarkInsertHeavyUniformMedium | - | - | 1.32 ms | - |
-| BenchmarkMixedUniformMedium | - | - | 609.85 us | - |
-| BenchmarkReadHeavyUniformMedium | - | - | 445.16 us | - |
-| test_get[10000] | - | - | - | 5.15 ms |
-| test_get[1000] | - | - | - | 449.67 us |
-| test_get[100] | - | - | - | 41.80 us |
-| test_insert[10000] | - | - | - | 22.18 ms |
-| test_insert[1000] | - | - | - | 2.17 ms |
-| test_insert[100] | - | - | - | 213.88 us |
-| test_insert_heavy_uniform_medium | - | - | - | 25.31 ms |
-| test_mixed_uniform_medium | - | - | - | 10.03 ms |
-| test_read_heavy_uniform_medium | - | - | - | 6.67 ms |
+| BenchmarkMixedUniformMedium | - | - | 605.16 us | - |
+| BenchmarkReadHeavyUniformMedium | - | - | 449.40 us | - |
+| test_get[10000] | - | - | - | 5.09 ms |
+| test_get[1000] | - | - | - | 452.49 us |
+| test_get[100] | - | - | - | 35.88 us |
+| test_insert[10000] | - | - | - | 21.43 ms |
+| test_insert[1000] | - | - | - | 2.23 ms |
+| test_insert[100] | - | - | - | 208.41 us |
+| test_insert_heavy_uniform_medium | - | - | - | 22.19 ms |
+| test_mixed_uniform_medium | - | - | - | 9.76 ms |
+| test_read_heavy_uniform_medium | - | - | - | 6.48 ms |
 
 ## C++ (Google Benchmark)
 
 | Benchmark | Mean Time |
 |-----------|-----------|
-| BM_Get/100 | 2.32 us |
-| BM_Get/10000 | 379.72 us |
-| BM_Get/4096 | 131.60 us |
-| BM_Get/512 | 14.57 us |
-| BM_Insert/100 | 12.85 us |
-| BM_Insert/10000 | 1.94 ms |
-| BM_Insert/4096 | 874.82 us |
-| BM_Insert/512 | 80.33 us |
+| BM_Get/100 | 2.29 us |
+| BM_Get/10000 | 382.64 us |
+| BM_Get/4096 | 129.31 us |
+| BM_Get/512 | 14.40 us |
+| BM_Insert/100 | 12.37 us |
+| BM_Insert/10000 | 1.91 ms |
+| BM_Insert/4096 | 864.26 us |
+| BM_Insert/512 | 82.23 us |
 | BM_InsertHeavyUniformMedium | 0.00 ns |
 | BM_MixedUniformMedium | 0.00 ns |
 | BM_ReadHeavyUniformMedium | 0.00 ns |
@@ -63,22 +63,22 @@
 | Benchmark | Mean Time |
 |-----------|-----------|
 | BenchmarkInsertHeavyUniformMedium | 1.32 ms |
-| BenchmarkMixedUniformMedium | 609.85 us |
-| BenchmarkReadHeavyUniformMedium | 445.16 us |
+| BenchmarkMixedUniformMedium | 605.16 us |
+| BenchmarkReadHeavyUniformMedium | 449.40 us |
 
 ## Python (pytest-benchmark)
 
 | Benchmark | Mean Time |
 |-----------|-----------|
-| test_get[10000] | 5.15 ms |
-| test_get[1000] | 449.67 us |
-| test_get[100] | 41.80 us |
-| test_insert[10000] | 22.18 ms |
-| test_insert[1000] | 2.17 ms |
-| test_insert[100] | 213.88 us |
-| test_insert_heavy_uniform_medium | 25.31 ms |
-| test_mixed_uniform_medium | 10.03 ms |
-| test_read_heavy_uniform_medium | 6.67 ms |
+| test_get[10000] | 5.09 ms |
+| test_get[1000] | 452.49 us |
+| test_get[100] | 35.88 us |
+| test_insert[10000] | 21.43 ms |
+| test_insert[1000] | 2.23 ms |
+| test_insert[100] | 208.41 us |
+| test_insert_heavy_uniform_medium | 22.19 ms |
+| test_mixed_uniform_medium | 9.76 ms |
+| test_read_heavy_uniform_medium | 6.48 ms |
 
 ## Notes
 
