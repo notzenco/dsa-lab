@@ -1,0 +1,12 @@
+# dsa-lab Python dependencies
+# Pin versions for reproducibility
+
+# Testing
+pytest>=7.4.0,<8.0
+pytest-benchmark>=4.0.0,<5.0
+
+# Formatting
+black>=23.0.0,<24.0
+
+# Workload generation uses stdlib only
+# Report generation uses stdlib only

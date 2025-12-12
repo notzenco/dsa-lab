@@ -1,0 +1,47 @@
+{
+  "workloads": [
+    "insert_heavy_uniform_small.json",
+    "insert_heavy_zipf_small.json",
+    "read_heavy_uniform_small.json",
+    "read_heavy_zipf_small.json",
+    "mixed_uniform_small.json",
+    "mixed_zipf_small.json",
+    "delete_heavy_uniform_small.json",
+    "delete_heavy_zipf_small.json",
+    "insert_heavy_uniform_medium.json",
+    "insert_heavy_zipf_medium.json",
+    "read_heavy_uniform_medium.json",
+    "read_heavy_zipf_medium.json",
+    "mixed_uniform_medium.json",
+    "mixed_zipf_medium.json",
+    "delete_heavy_uniform_medium.json",
+    "delete_heavy_zipf_medium.json",
+    "insert_heavy_uniform_large.json",
+    "insert_heavy_zipf_large.json",
+    "read_heavy_uniform_large.json",
+    "read_heavy_zipf_large.json",
+    "mixed_uniform_large.json",
+    "mixed_zipf_large.json",
+    "delete_heavy_uniform_large.json",
+    "delete_heavy_zipf_large.json"
+  ],
+  "sizes": {
+    "small": 1000,
+    "medium": 10000,
+    "large": 100000
+  },
+  "distributions": [
+    "uniform",
+    "zipf"
+  ],
+  "seeds": {
+    "insert_heavy_uniform": 42,
+    "insert_heavy_zipf": 43,
+    "read_heavy_uniform": 44,
+    "read_heavy_zipf": 45,
+    "mixed_uniform": 46,
+    "mixed_zipf": 47,
+    "delete_heavy_uniform": 48,
+    "delete_heavy_zipf": 49
+  }
+}

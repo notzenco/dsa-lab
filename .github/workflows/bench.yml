@@ -1,0 +1,232 @@
+name: Benchmarks
+
+on:
+  workflow_dispatch:
+    inputs:
+      languages:
+        description: 'Languages to benchmark (comma-separated: rust,cpp,go,python or all)'
+        required: false
+        default: 'all'
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  generate-workloads:
+    name: Generate Workloads
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Generate workloads
+        run: python tools/gen_workloads.py
+
+      - name: Upload workloads
+        uses: actions/upload-artifact@v4
+        with:
+          name: workloads
+          path: workloads/
+
+  bench-rust:
+    name: Rust Benchmarks
+    needs: generate-workloads
+    runs-on: ubuntu-latest
+    if: ${{ github.event.inputs.languages == 'all' || contains(github.event.inputs.languages, 'rust') }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download workloads
+        uses: actions/download-artifact@v4
+        with:
+          name: workloads
+          path: workloads/
+
+      - name: Install Rust
+        uses: dtolnay/rust-action@stable
+
+      - name: Cache cargo
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/bin/
+            ~/.cargo/registry/index/
+            ~/.cargo/registry/cache/
+            ~/.cargo/git/db/
+            impl/rust/target/
+          key: ${{ runner.os }}-cargo-bench-${{ hashFiles('impl/rust/Cargo.toml') }}
+
+      - name: Run benchmarks
+        run: cargo bench
+        working-directory: impl/rust
+
+      - name: Upload results
+        uses: actions/upload-artifact@v4
+        with:
+          name: rust-bench-results
+          path: impl/rust/target/criterion/
+
+  bench-cpp:
+    name: C++ Benchmarks
+    needs: generate-workloads
+    runs-on: ubuntu-latest
+    if: ${{ github.event.inputs.languages == 'all' || contains(github.event.inputs.languages, 'cpp') }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download workloads
+        uses: actions/download-artifact@v4
+        with:
+          name: workloads
+          path: workloads/
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y cmake ninja-build
+
+      - name: Configure
+        run: cmake -S impl/cpp -B impl/cpp/build -G Ninja -DCMAKE_BUILD_TYPE=Release
+
+      - name: Build benchmarks
+        run: cmake --build impl/cpp/build --target dsa_bench
+
+      - name: Run benchmarks
+        run: |
+          mkdir -p reports/raw
+          ./impl/cpp/build/dsa_bench --benchmark_format=json > reports/raw/cpp_bench.json
+
+      - name: Upload results
+        uses: actions/upload-artifact@v4
+        with:
+          name: cpp-bench-results
+          path: reports/raw/cpp_bench.json
+
+  bench-go:
+    name: Go Benchmarks
+    needs: generate-workloads
+    runs-on: ubuntu-latest
+    if: ${{ github.event.inputs.languages == 'all' || contains(github.event.inputs.languages, 'go') }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download workloads
+        uses: actions/download-artifact@v4
+        with:
+          name: workloads
+          path: workloads/
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.21'
+          cache-dependency-path: impl/go/go.sum
+
+      - name: Run benchmarks
+        run: |
+          mkdir -p ../../reports/raw
+          go test -bench=. -benchmem ./... | tee ../../reports/raw/go_bench.txt
+        working-directory: impl/go
+
+      - name: Upload results
+        uses: actions/upload-artifact@v4
+        with:
+          name: go-bench-results
+          path: reports/raw/go_bench.txt
+
+  bench-python:
+    name: Python Benchmarks
+    needs: generate-workloads
+    runs-on: ubuntu-latest
+    if: ${{ github.event.inputs.languages == 'all' || contains(github.event.inputs.languages, 'python') }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download workloads
+        uses: actions/download-artifact@v4
+        with:
+          name: workloads
+          path: workloads/
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e ".[dev]"
+        working-directory: impl/python
+
+      - name: Run benchmarks
+        run: |
+          mkdir -p ../../reports/raw
+          pytest bench/ -v --benchmark-json=../../reports/raw/python_bench.json
+        working-directory: impl/python
+
+      - name: Upload results
+        uses: actions/upload-artifact@v4
+        with:
+          name: python-bench-results
+          path: reports/raw/python_bench.json
+
+  generate-report:
+    name: Generate Report
+    needs: [bench-rust, bench-cpp, bench-go, bench-python]
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Create reports directory
+        run: mkdir -p reports/raw
+
+      - name: Download Rust results
+        uses: actions/download-artifact@v4
+        with:
+          name: rust-bench-results
+          path: reports/raw/rust_criterion/
+        continue-on-error: true
+
+      - name: Download C++ results
+        uses: actions/download-artifact@v4
+        with:
+          name: cpp-bench-results
+          path: reports/raw/
+        continue-on-error: true
+
+      - name: Download Go results
+        uses: actions/download-artifact@v4
+        with:
+          name: go-bench-results
+          path: reports/raw/
+        continue-on-error: true
+
+      - name: Download Python results
+        uses: actions/download-artifact@v4
+        with:
+          name: python-bench-results
+          path: reports/raw/
+        continue-on-error: true
+
+      - name: Capture environment
+        run: python tools/env_capture.py
+
+      - name: Generate report
+        run: python tools/report.py
+
+      - name: Upload report
+        uses: actions/upload-artifact@v4
+        with:
+          name: benchmark-report
+          path: reports/latest.md

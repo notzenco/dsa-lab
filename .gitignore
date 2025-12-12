@@ -1,1 +1,52 @@
-.idea
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Rust
+impl/rust/target/
+impl/rust/Cargo.lock
+
+# C++
+impl/cpp/build/
+impl/cpp/cmake-build-*/
+*.o
+*.a
+*.so
+*.dylib
+
+# Go
+impl/go/bin/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.eggs/
+dist/
+build/
+.venv/
+venv/
+.pytest_cache/
+.benchmarks/
+
+# Tools
+tools/.venv/
+
+# Benchmark outputs
+*.json
+!workloads/**/*.json
+
+# Reports (keep structure)
+reports/history/*.md
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment
+.env
+.env.local
